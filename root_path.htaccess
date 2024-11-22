@@ -1,0 +1,16 @@
+# https://www.mediawiki.org/wiki/Manual:Short_URL/Apache
+
+RewriteEngine On
+RewriteBase /113dbb/113dbb04/
+
+RewriteCond %{REQUEST_URI} !^/phpinfo\.php
+RewriteCond %{REQUEST_URI} !^/tkufd
+RewriteCond %{REQUEST_URI} !^/tkuisais/api\.php
+RewriteCond %{REQUEST_URI} !^/tkuisais/index\.php
+RewriteCond %{REQUEST_URI} !^/tkuisais/load\.php
+RewriteCond %{REQUEST_URI} !^/tkuisais/docs
+RewriteCond %{REQUEST_URI} !^/tkuisais/resources
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /113dbb/113dbb04/tkuisais/index.php/$1 [L]
+RewriteRule ^/*$ /113dbb/113dbb04/tkuisais/index.php [L]

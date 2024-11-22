@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database layout diagram</title>
+<style>
+.mw-parser-output .mw-tpl-schemadiagram-caption,
+.mw-parser-output .mw-tpl-schemadiagram,
+.mw-parser-output .mw-tpl-schemadiagram-table {
+    font-family: sans-serif;
+    line-height: 1.6;
+    font-size: 12px;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-caption a,
+.mw-parser-output .mw-tpl-schemadiagram a {
+    text-decoration: none;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-caption a:hover,
+.mw-parser-output .mw-tpl-schemadiagram-caption a:focus,
+.mw-parser-output .mw-tpl-schemadiagram a:hover,
+.mw-parser-output .mw-tpl-schemadiagram a:focus {
+    text-decoration: underline;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-caption {
+    display: inline-block;
+    margin: 0 1em 1em 0;
+    padding: 0 24px;
+    border: 1px solid #a2a9b1;
+    background: #eaecf0;
+    font-family: sans-serif;
+    line-height: 1.6;
+    font-size: 12px;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-caption a.external,
+.mw-parser-output .mw-tpl-schemadiagram a.external {
+    background: none;
+    padding: 0;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-fullscreen a .mw-ui-button {
+    line-height: 1.6em;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+body.mediawiki .mw-parser-output .mw-tpl-schemadiagram {
+    max-width: 170em;
+}
+
+body:not( .mediawiki ) .mw-parser-output .mw-tpl-schemadiagram {
+    width: 170em;
+}
+
+body:not( .mediawiki ) .mw-parser-output .mw-tpl-schemadiagram-fullscreen {
+    display: none;
+}
+
+body:not( .mediawiki ) .mw-parser-output .mw-tpl-schemadiagram-credit a,
+body:not( .mediawiki ) .mw-parser-output .mw-tpl-schemadiagram-credit a.external{
+    color: inherit;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-group {
+    border: 1px solid #a2a9b1;
+    margin: 0 1em 1em 0;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-group h2,
+.mw-parser-output .mw-tpl-schemadiagram-group .mw-heading2 {
+    margin: 0;
+    font-size: inherit;
+    font-family: inherit;
+    border: 0;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-group h2 {
+    display: table;
+    padding: 0.4em 1.2em 0.2em 0.6em;
+    background: #fff;
+    color: #404244;
+    font-weight: bold;
+    border: 1px solid #a2a9b1;
+    border-width: 0 1px 1px 0;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-group tr {
+    vertical-align: baseline;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-table {
+    margin: 1em 0.8em 1em 0.9em;
+    border: 1px solid #c8ccd1;
+    background: #fff;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-table h3,
+.mw-parser-output .mw-tpl-schemadiagram-group .mw-heading3 {
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    border: 0;
+    display: block;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-table h3 {
+    padding: 0 4px 0 26px;
+    background: #eaecf0 url( 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_table.svg/24px-OOjs_UI_icon_table.svg.png' ) no-repeat 7px 50%;
+    background-size: 12px;
+    color: #111;
+    line-height: 2.3;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-table h3 a {
+    color: inherit;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-table ul {
+    margin: 3px 6px;
+    padding: 0;
+    list-style: none;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-field {
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+    cursor: help;
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-field--primary {
+    background: url( 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/OOjs_UI_icon_key.svg/32px-OOjs_UI_icon_key.svg.png' ) no-repeat 0 50%;
+    background-size: 16px;
+    border: 0;
+    transform: rotate( -45deg );
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-field--notnull {
+    background: #36c;
+    border: 1px solid #72777d;
+    transform: rotate( -45deg ) scale( 0.6 );
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-field--regular {
+    border: 1px solid #36c;
+    transform: rotate( -45deg ) scale( 0.6 );
+}
+
+pre,
+code,
+tt,
+kbd,
+samp,
+.mw-code {
+    font-family: monospace;
+}
+
+pre,
+code,
+.mw-code {
+    background-color: var( --background-color-neutral-subtle, #f8f9fa );
+    color: var( --color-emphasized, #101418 );
+    border: 1px solid var( --border-color-muted, #dadde3 );
+}
+
+code {
+    border-radius: 2px;
+    padding: 1px 4px;
+}
+
+pre,
+.mw-code {
+    padding: 1em;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    word-wrap: break-word;
+}
+
+pre {
+    line-height: 125%;
+}
+
+td.linenos .normal {
+    color: inherit;
+    background-color: transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+span.linenos {
+    color: inherit;
+    background-color: transparent;
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+td.linenos .special {
+    color: #000000;
+    background-color: #ffffc0;
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+span.linenos.special {
+    color: #000000;
+    background-color: #ffffc0;
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+.mw-highlight .hll {
+    background-color: #ffffcc;
+}
+
+.mw-highlight {
+    background: #f8f8f8
+}
+
+.mw-highlight .c {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .err {
+    border: 1px solid #FF0000;
+}
+
+.mw-highlight .k {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .o {
+    color: #666666;
+}
+
+.mw-highlight .ch {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .cm {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .cp {
+    color: #9C6500;
+}
+
+.mw-highlight .cpf {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .c1 {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .cs {
+    color: #3D7B7B;
+    font-style: italic;
+}
+
+.mw-highlight .gd {
+    color: #A00000;
+}
+
+.mw-highlight .ge {
+    font-style: italic;
+}
+
+.mw-highlight .ges {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.mw-highlight .gr {
+    color: #E40000;
+}
+
+.mw-highlight .gh {
+    color: #000080;
+    font-weight: bold;
+}
+
+.mw-highlight .gi {
+    color: #008400;
+}
+
+.mw-highlight .go {
+    color: #717171;
+}
+
+.mw-highlight .gp {
+    color: #000080;
+    font-weight: bold;
+}
+
+.mw-highlight .gs {
+    font-weight: bold;
+}
+
+.mw-highlight .gu {
+    color: #800080;
+    font-weight: bold;
+}
+
+.mw-highlight .gt {
+    color: #0044DD;
+}
+
+.mw-highlight .kc {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .kd {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .kn {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .kp {
+    color: #008000;
+}
+
+.mw-highlight .kr {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .kt {
+    color: #B00040;
+}
+
+.mw-highlight .m {
+    color: #666666;
+}
+
+.mw-highlight .s {
+    color: #BA2121;
+}
+
+.mw-highlight .na {
+    color: #687822;
+}
+
+.mw-highlight .nb {
+    color: #008000;
+}
+
+.mw-highlight .nc {
+    color: #0000FF;
+    font-weight: bold;
+}
+
+.mw-highlight .no {
+    color: #880000;
+}
+
+.mw-highlight .nd {
+    color: #AA22FF;
+}
+
+.mw-highlight .ni {
+    color: #717171;
+    font-weight: bold;
+}
+
+.mw-highlight .ne {
+    color: #CB3F38;
+    font-weight: bold;
+}
+
+.mw-highlight .nf {
+    color: #0000FF;
+}
+
+.mw-highlight .nl {
+    color: #767600;
+}
+
+.mw-highlight .nn {
+    color: #0000FF;
+    font-weight: bold;
+}
+
+.mw-highlight .nt {
+    color: #008000;
+    font-weight: bold;
+}
+
+.mw-highlight .nv {
+    color: #19177C;
+}
+
+.mw-highlight .ow {
+    color: #AA22FF;
+    font-weight: bold;
+}
+
+.mw-highlight .w {
+    color: #bbbbbb;
+}
+
+.mw-highlight .mb {
+    color: #666666;
+}
+
+.mw-highlight .mf {
+    color: #666666;
+}
+
+.mw-highlight .mh {
+    color: #666666;
+}
+
+.mw-highlight .mi {
+    color: #666666;
+}
+
+.mw-highlight .mo {
+    color: #666666;
+}
+
+.mw-highlight .sa {
+    color: #BA2121;
+}
+
+.mw-highlight .sb {
+    color: #BA2121;
+}
+
+.mw-highlight .sc {
+    color: #BA2121;
+}
+
+.mw-highlight .dl {
+    color: #BA2121;
+}
+
+.mw-highlight .sd {
+    color: #BA2121;
+    font-style: italic;
+}
+
+.mw-highlight .s2 {
+    color: #BA2121;
+}
+
+.mw-highlight .se {
+    color: #AA5D1F;
+    font-weight: bold;
+}
+
+.mw-highlight .sh {
+    color: #BA2121;
+}
+
+.mw-highlight .si {
+    color: #A45A77;
+    font-weight: bold;
+}
+
+.mw-highlight .sx {
+    color: #008000;
+}
+
+.mw-highlight .sr {
+    color: #A45A77;
+}
+
+.mw-highlight .s1 {
+    color: #BA2121;
+}
+
+.mw-highlight .ss {
+    color: #19177C;
+}
+
+.mw-highlight .bp {
+    color: #008000;
+}
+
+.mw-highlight .fm {
+    color: #0000FF;
+}
+
+.mw-highlight .vc {
+    color: #19177C;
+}
+
+.mw-highlight .vg {
+    color: #19177C;
+}
+
+.mw-highlight .vi {
+    color: #19177C;
+}
+
+.mw-highlight .vm {
+    color: #19177C;
+}
+
+.mw-highlight .il {
+    color: #666666;
+}
+
+.mw-highlight {
+    unicode-bidi: embed;
+}
+
+.mw-highlight pre {
+    -moz-tab-size: 4;
+    tab-size: 4;
+    position: relative
+}
+
+div.mw-highlight {
+    background-color: inherit
+}
+
+code.mw-highlight,
+div.mw-highlight pre {
+    background-color: #f8f8f8;
+    color: #333
+}
+
+code code.mw-highlight {
+    background-color: transparent;
+    color: inherit;
+    border: 0;
+    padding: 0
+}
+
+.mw-highlight .err {
+    border: 0
+}
+
+.mw-highlight .hll {
+    display: block
+}
+
+.mw-content-ltr.mw-highlight-lines pre,
+.mw-content-ltr.content .mw-highlight-lines pre {
+    padding-left: 3.5em;
+    box-shadow: inset 2.75em 0 0 #f0f0f0
+}
+
+.mw-content-ltr.mw-highlight-lines pre .hll,
+.mw-content-ltr.content .mw-highlight-lines pre .hll {
+    margin-left: -3.5em;
+    padding-left: 3.5em
+}
+
+.mw-content-rtl.mw-highlight-lines pre,
+.mw-content-rtl.content .mw-highlight-lines pre {
+    padding-right: 3.5em;
+    box-shadow: inset -2.75em 0 0 #f0f0f0;
+}
+
+.mw-content-rtl.mw-highlight-lines pre .hll,
+.mw-content-rtl.content .mw-highlight-lines pre .hll {
+    margin-right: -3.5em;
+    padding-right: 3.5em
+}
+
+.mw-highlight .linenos {
+    position: absolute;
+    box-sizing: border-box;
+    width: 2.75em;
+    background: none;
+    color: #72777d;
+    white-space: pre
+}
+
+.mw-content-ltr.mw-highlight .linenos {
+    left: 0;
+    text-align: right;
+    margin-right: 4px
+}
+
+.mw-content-rtl.mw-highlight .linenos {
+    right: 0;
+    text-align: left;
+    margin-left: 4px
+}
+
+.mw-highlight .linenos::before {
+    content: attr( data-line )
+}
+
+.mw-highlight a:hover .linenos,
+.mw-highlight .hll a .linenos {
+    color: #333
+}
+
+.mw-parser-output .mw-tpl-schemadiagram-credit {
+    flex-basis: 100%;
+    border-top: 1px solid #c8ccd1;
+    padding: 1em;
+    text-align: right;
+    font-size: 10px;
+}
+</style>
+</head>
+<body>
+<div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr">
+<div class="mw-tpl-schemadiagram-caption">
+<p><b>Database schema for TKUFD</b>.</p>
+</div>
+<div class="mw-tpl-schemadiagram">
+<div style="background: #eaf3ff;" class="mw-tpl-schemadiagram-group mw-tpl-schemadiagram-group--green">
+<div class="mw-heading mw-heading2">
+<h2 id="Languages">Languages</h2>
+</div>
+<table>
+<tbody>
+<tr>
+<td>
+<div class="mw-tpl-schemadiagram-table">
+<div class="mw-heading mw-heading3">
+<h3 id="lang_text">lang_text</h3>
+</div>
+<ul>
+<li>
+<span title="Primary key" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--primary"></span> lt_id BIGINT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> lt_label_id BIGINT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> lt_lang_id INT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> lt_text VARBINARY(255)</li></ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div><div class="mw-tpl-schemadiagram-group mw-tpl-schemadiagram-group--green" style="background: #fef6e7;">
+<div class="mw-heading mw-heading2">
+<h2 id="Banks">Banks</h2>
+</div>
+<table>
+<tbody>
+<tr>
+<td>
+<div class="mw-tpl-schemadiagram-table">
+<div class="mw-heading mw-heading3">
+<h3 id="bank">bank</h3>
+</div>
+<ul>
+<li><span title="Primary key" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--primary"></span> bank_id BIGINT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bank_code VARBINARY(255)</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bank_label_id BIGINT</li>
+</ul>
+</div>
+</td>
+<td>
+<div class="mw-tpl-schemadiagram-table">
+<div class="mw-heading mw-heading3">
+<h3 id="bank_data">bank_data</h3>
+</div>
+<ul>
+<li><span title="Primary key" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--primary"></span> bd_id BIGINT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bd_bank_id BIGINT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bd_type INT</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bd_timestamp BINARY(14)</li>
+<li><span title="Required (Not nullable)" class="mw-tpl-schemadiagram-field mw-tpl-schemadiagram-field--notnull"></span> bd_value BIGINT</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mw-highlight mw-highlight-lang-sql mw-content-ltr" dir="ltr">
+<pre>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">tkufd</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">SET</span><span class="o">=</span><span class="nb">utf8mb4</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">COLLATE</span><span class="o">=</span><span class="nb">utf8mb4_unicode_ci</span><span class="p">;</span>
+
+<span class="k">USE</span><span class="w"> </span><span class="n">tkufd</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">lang_text</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">lt_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lt_label_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lt_lang_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lt_text</span><span class="w"> </span><span class="n">VARBINARY</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">INDEX</span><span class="w"> </span><span class="n">lt_label_lang</span><span class="w"> </span><span class="p">(</span><span class="n">lt_label_id</span><span class="p">,</span><span class="w"> </span><span class="n">lt_lang_id</span><span class="p">),</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">lt_id</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="p">,</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARSET</span><span class="o">=</span><span class="nb">binary</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">bank</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">bank_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bank_code</span><span class="w"> </span><span class="n">VARBINARY</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bank_label_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">INDEX</span><span class="w"> </span><span class="n">bank_code</span><span class="w"> </span><span class="p">(</span><span class="n">bank_code</span><span class="p">),</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">bank_id</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="p">,</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARSET</span><span class="o">=</span><span class="nb">binary</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">bank_data</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">bd_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bd_bank_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bd_type</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bd_timestamp</span><span class="w"> </span><span class="nb">BINARY</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">bd_value</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">INDEX</span><span class="w"> </span><span class="n">bd_bid_type_timestamp</span><span class="w"> </span><span class="p">(</span><span class="n">bd_bank_id</span><span class="p">,</span><span class="w"> </span><span class="n">bd_type</span><span class="p">,</span><span class="w"> </span><span class="n">bd_timestamp</span><span class="p">),</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">bd_id</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="p">,</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARSET</span><span class="o">=</span><span class="nb">binary</span><span class="p">;</span>
+</pre>
+</div>
+<p class="mw-tpl-schemadiagram-credit"></p>
+</div>
+</body>
+</html>
