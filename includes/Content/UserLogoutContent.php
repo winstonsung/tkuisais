@@ -1,0 +1,16 @@
+<?php
+
+namespace Isais\Content;
+
+use Isais\Content\Content;
+
+class UserLogoutContent extends Content
+{
+    public function __construct($auth_manager, $config, $connection_provider, $context, $title)
+    {
+        parent::__construct($auth_manager, $config, $connection_provider, $context, $title);
+
+        $this->display_title = '登出';
+        $this->display_content = '';
+    }
+}
