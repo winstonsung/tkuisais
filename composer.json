@@ -1,0 +1,41 @@
+{
+    "name": "isais/core",
+    "description": "School affair information system for Tamkang University 2024-1 (113-1) course \"Introduction to Database\"",
+    "type": "isais-core",
+    "keywords": [
+        "information",
+        "tamkang",
+        "tku"
+    ],
+    "homepage": "https://github.com/winstonsung/tku-isais",
+    "license": "CC0-1.0",
+    "authors": [
+        {
+            "name": "Winston Sung"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/winstonsung/tku-isais/issues"
+    },
+    "require": {
+        "composer": ">=2.2.24",
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Isais\\": "src"
+        }
+    },
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "prepend-autoloader": false,
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "scripts": {
+    }
+}

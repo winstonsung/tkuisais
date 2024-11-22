@@ -1,0 +1,8 @@
+*.css eol=lf
+*.html eol=lf
+*.js eol=lf
+*.json eol=lf
+*.php eol=lf
+*.py eol=lf
+*.yaml eol=lf
+*.yml eol=lf
